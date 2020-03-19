@@ -42,38 +42,55 @@ module.exports = class {
         console.log(`The ${status}:${worker.threadId}:worker has started its work lately`)
     }
 
-    allocateTask() {
-        if (this.taskQueue.length) {
-            const task = this.taskQueue.shift()
-            this.run(task.data, task.callback)
-        } else {
-            // console.log('The queue has been exhasuted')
+    setTask(task) {
+        this.taskQueue.push(task)
+    }
+
+    getTask() {
+        return this.taskQueue.shift()
+    }
+
+    runQueuedTask() {
+        const task = this.getTask()
+
+        if (task) {
+            const { data, res, rej } = task
+
+            this.run(data)
+                .then(res)
+                .catch(rej)
         }
     }
-    run(data, callback) {
-        const wC = this.getWCByStatus(status.IDLE)
 
-        if (!wC) {
-            this.taskQueue.push({
-                callback,
-                data,
-            })
-        } else {
-            this.setWCStatus(wC.worker, status.BUSY)
+    run(data) {
+        return new Promise((res, rej) => {
+            const wC = this.getWCByStatus(status.IDLE)
 
-            wC.worker.once('message', msg => {
-                this.setWCStatus(wC.worker, status.IDLE)
-                callback(msg)
-                this.allocateTask()
-            })
+            if (!wC) {
+                this.setTask({
+                    data,
+                    res,
+                    rej,
+                })
+            } else {
+                this.setWCStatus(wC.worker, status.BUSY)
 
-            wC.worker.on('error', err => {
-                this.setWCStatus(wC.worker, status.IDLE)
-                callback(err)
-                this.allocateTask()
-            })
+                wC.worker.once('message', msg => {
+                    this.setWCStatus(wC.worker, status.IDLE)
+                    res(msg)
 
-            wC.worker.postMessage(data)
-        }
+                    this.runQueuedTask()
+                })
+
+                wC.worker.on('error', err => {
+                    this.setWCStatus(wC.worker, status.IDLE)
+                    rej(err)
+
+                    this.runQueuedTask()
+                })
+
+                wC.worker.postMessage(data)
+            }
+        })
     }
 }
