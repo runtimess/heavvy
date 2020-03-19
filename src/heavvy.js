@@ -21,16 +21,8 @@ module.exports = class {
         wC.status = status
     }
 
-    getIdleWC() {
-        const wC = this.pool.find(_ => _.status === status.IDLE)
-
-        // if (!wC) {
-        //     const rand = Math.floor(Math.random() * this.poolSize)
-
-        //     return this.pool[rand]
-        // }
-
-        return wC
+    getWCByStatus(status) {
+        return this.pool.find(_ => _.status === status)
     }
 
     _init() {
@@ -59,7 +51,7 @@ module.exports = class {
         }
     }
     run(data, callback) {
-        const wC = this.getIdleWC()
+        const wC = this.getWCByStatus(status.IDLE)
 
         if (!wC) {
             this.taskQueue.push({
