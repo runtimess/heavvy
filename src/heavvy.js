@@ -1,4 +1,4 @@
-const {Worker, isMainThread} = require('worker_threads')
+const { Worker, isMainThread } = require('worker_threads')
 
 const status = {
     IDLE: 'IDLE',
@@ -44,10 +44,9 @@ module.exports = class {
         }
     }
 
-
     logWC(wC) {
-        const {worker, status} = wC
-        
+        const { worker, status } = wC
+
         console.log(`The ${status}:${worker.threadId}:worker has started its work lately`)
     }
 
@@ -65,21 +64,23 @@ module.exports = class {
         if (!wC) {
             this.taskQueue.push({
                 callback,
-                data
+                data,
             })
         } else {
             this.setWCStatus(wC.worker, status.BUSY)
-            
+
             wC.worker.once('message', msg => {
                 this.setWCStatus(wC.worker, status.IDLE)
                 callback(msg)
                 this.allocateTask()
             })
+
             wC.worker.on('error', err => {
                 this.setWCStatus(wC.worker, status.IDLE)
                 callback(err)
                 this.allocateTask()
             })
+
             wC.worker.postMessage(data)
         }
     }
