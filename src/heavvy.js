@@ -6,11 +6,12 @@ const status = {
 }
 
 module.exports = class {
-    constructor(script, poolSize = 4) {
+    constructor(script, poolSize = 4, methods = []) {
         this.script = script
         this.poolSize = poolSize
         this.pool = []
         this.taskQueue = []
+        this.methods = methods
 
         this._init()
     }
@@ -25,6 +26,17 @@ module.exports = class {
         return this.pool.find(_ => _.status === status)
     }
 
+    _mapMethods() {
+        for (const method of this.methods) {
+            this[method] = data => {
+                return this.run({
+                    method,
+                    ...data,
+                })
+            }
+        }
+    }
+
     _init() {
         for (let i = 0; i < this.poolSize; i++) {
             const worker = new Worker(this.script)
@@ -34,6 +46,8 @@ module.exports = class {
                 status: status.IDLE,
             })
         }
+
+        this._mapMethods()
     }
 
     logWC(wC) {
