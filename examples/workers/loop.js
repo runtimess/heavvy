@@ -1,7 +1,7 @@
 const { parentPort } = require('worker_threads')
 
-parentPort.on('message', msg => {
-    const { durationMs } = msg.payload
+parentPort.on('message', event => {
+    const { durationMs } = event.payload
     const startTime = Date.now()
     let counter = 0
 

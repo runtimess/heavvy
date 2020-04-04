@@ -13,7 +13,7 @@ for (let i = 1; i <= tasksCount; i++) {
         payload: {
             durationMs: 3000,
         },
-    }).then(msg => {
-        console.log(`${i}) getRandom: ${msg.payload.value}`)
+    }).then(event => {
+        console.log(`${i}) getRandom: ${event.payload.value}`)
     })
 }

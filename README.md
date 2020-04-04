@@ -7,8 +7,8 @@ You have to create a worker file according to Node's docs, for instance:
 ```js
 const { parentPort } = require('worker_threads')
 
-parentPort.on('message', msg => {
-    const { durationMs } = msg.payload
+parentPort.on('message', event => {
+    const { durationMs } = event.payload
     const startTime = Date.now()
     let counter = 0
 
@@ -35,8 +35,8 @@ for (let i = 1; i <= tasksCount; i++) {
         payload: {
             durationMs: 3000,
         },
-    }).then(msg => {
-        console.log(`${i}) Result: ${msg.payload.counter}`)
+    }).then(event => {
+        console.log(`${i}) Result: ${event.payload.counter}`)
     })
 }
 ```

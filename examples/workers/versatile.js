@@ -27,8 +27,8 @@ const methods = {
     },
 }
 
-parentPort.on('message', async msg => {
+parentPort.on('message', async event => {
     parentPort.postMessage({
-        payload: await methods[msg.method](msg),
+        payload: await methods[event.method](event),
     })
 })

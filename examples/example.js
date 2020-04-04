@@ -9,7 +9,7 @@ for (let i = 1; i <= tasksCount; i++) {
         payload: {
             durationMs: 3000,
         },
-    }).then(msg => {
-        console.log(`${i}) Result: ${msg.payload.counter}`)
+    }).then(event => {
+        console.log(`${i}) Result: ${event.payload.counter}`)
     })
 }

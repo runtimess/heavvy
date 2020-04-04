@@ -91,9 +91,9 @@ module.exports = class {
 
                 wC.worker.removeAllListeners()
 
-                wC.worker.once('message', msg => {
+                wC.worker.once('message', event => {
                     this.setWCStatus(wC.worker, status.IDLE)
-                    res(msg)
+                    res(event)
 
                     this.runQueuedTask()
                 })
