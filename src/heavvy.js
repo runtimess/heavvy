@@ -89,6 +89,8 @@ module.exports = class {
             } else {
                 this.setWCStatus(wC.worker, status.BUSY)
 
+                wC.worker.removeAllListeners()
+
                 wC.worker.once('message', msg => {
                     this.setWCStatus(wC.worker, status.IDLE)
                     res(msg)
@@ -96,7 +98,7 @@ module.exports = class {
                     this.runQueuedTask()
                 })
 
-                wC.worker.on('error', err => {
+                wC.worker.once('error', err => {
                     this.setWCStatus(wC.worker, status.IDLE)
                     rej(err)
 
