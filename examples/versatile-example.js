@@ -1,5 +1,5 @@
-const Heavvy = require('../src/heavvy')
-const script = require.resolve('./workers/versatile')
+import { Heavvy } from '../src/heavvy'
+const script = __dirname + '/../examples/workers/versatile.js'
 const pool = new Heavvy(script, 4, ['getPassword', 'getRandom'])
 
 const tasksCount = 10

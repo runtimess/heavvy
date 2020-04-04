@@ -1,5 +1,5 @@
-const Heavvy = require('../src/heavvy')
-const script = require.resolve('./workers/loop')
+import { Heavvy } from '../src/heavvy'
+const script = __dirname + '/../examples/workers/loop.js'
 const pool = new Heavvy(script, 4)
 
 const tasksCount = 10

@@ -1,4 +1,8 @@
+# Black list
 node_modules
+dist
 
+# White list
 !.eslintrc.js
 !.prettierrc.js
+!rollup.config.js

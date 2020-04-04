@@ -1,11 +1,11 @@
-const { Worker, isMainThread } = require('worker_threads')
+import { Worker, isMainThread } from 'worker_threads'
 
 const status = {
     IDLE: 'IDLE',
     BUSY: 'BUSY',
 }
 
-module.exports = class {
+class Heavvy {
     constructor(script, poolSize = 4, methods = []) {
         this.script = script
         this.poolSize = poolSize
@@ -109,4 +109,8 @@ module.exports = class {
             }
         })
     }
+}
+
+export {
+Heavvy    
 }
