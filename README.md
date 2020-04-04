@@ -1,8 +1,9 @@
 # Introduction
-This is an awful simple and lightweight thread pool library based on thread_workers internal nodejs module. The library has been created for using cluster module stead.
+This is an awful simple and lightweight thread pool library based on thread_workers internal Node's module.
+The library has been created for using cluster module stead.
 
 ## Usage
-You have to create a worker file accordingly to nodejs docs for instance:
+You have to create a worker file according to Node's docs, for instance:
 ```js
 const { parentPort } = require('worker_threads')
 
@@ -20,7 +21,7 @@ parentPort.on('message', msg => {
     })
 })
 ```
-and then you can use it for creating an heavvy instance
+and then you can use it for creating an Heavvy instance:
 
 ```js
 const Heavvy = require('heavvy')
