@@ -1,4 +1,4 @@
-import { Worker, isMainThread } from 'worker_threads'
+import { Worker } from 'worker_threads'
 
 const status = {
     IDLE: 'IDLE',
@@ -111,6 +111,4 @@ class Heavvy {
     }
 }
 
-export {
-Heavvy    
-}
+export { Heavvy }
