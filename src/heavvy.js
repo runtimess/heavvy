@@ -1,8 +1,8 @@
 import { Worker } from 'worker_threads'
 
-const status = {
-    IDLE: 'IDLE',
-    BUSY: 'BUSY',
+const STATUSES = {
+    IDLE: Symbol('WORKER_STATUS_IDLE'),
+    BUSY: Symbol('WORKER_STATUS_IDLE'),
 }
 
 class Heavvy {
@@ -43,7 +43,7 @@ class Heavvy {
 
             this.pool.push({
                 worker,
-                status: status.IDLE,
+                status: STATUSES.IDLE,
             })
         }
 
@@ -78,7 +78,7 @@ class Heavvy {
 
     run(data) {
         return new Promise((res, rej) => {
-            const wC = this.getWCByStatus(status.IDLE)
+            const wC = this.getWCByStatus(STATUSES.IDLE)
 
             if (!wC) {
                 this.setTask({
@@ -87,19 +87,19 @@ class Heavvy {
                     rej,
                 })
             } else {
-                this.setWCStatus(wC.worker, status.BUSY)
+                this.setWCStatus(wC.worker, STATUSES.BUSY)
 
                 wC.worker.removeAllListeners()
 
                 wC.worker.once('message', event => {
-                    this.setWCStatus(wC.worker, status.IDLE)
+                    this.setWCStatus(wC.worker, STATUSES.IDLE)
                     res(event)
 
                     this.runQueuedTask()
                 })
 
                 wC.worker.once('error', err => {
-                    this.setWCStatus(wC.worker, status.IDLE)
+                    this.setWCStatus(wC.worker, STATUSES.IDLE)
                     rej(err)
 
                     this.runQueuedTask()
