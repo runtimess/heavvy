@@ -1,5 +1,5 @@
 # Introduction
-This is an awful simple and lightweight thread pool library based on thread_workers internal Node's module.
+This is an awful simple and lightweight thread pool library based on worker_threads internal Node's module.
 The library has been created for using cluster module stead.
 
 ## Usage
