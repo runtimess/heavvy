@@ -1,6 +1,5 @@
 # Introduction
 This is an awful simple and lightweight thread pool library based on worker_threads internal Node's module.
-The library has been created for using cluster module stead.
 
 ## Usage
 You have to create a worker file according to Node's docs, for instance:
