@@ -1,8 +1,8 @@
 # Introduction
-This is an awful simple and lightweight thread pool library based on worker_threads internal Node's module.
+This is an awfully simple and lightweight thread pool library based on worker_threads internal Node module.
 
 ## Usage
-You have to create a worker file according to Node's docs, for instance:
+A worker file according to Node's docs needs to be created, for instance:
 ```js
 const { parentPort } = require('worker_threads')
 
@@ -20,7 +20,7 @@ parentPort.on('message', event => {
     })
 })
 ```
-and then you can use it for creating an Heavvy instance:
+and then it can be used for creating a Heavvy instance:
 
 ```js
 const Heavvy = require('heavvy')
